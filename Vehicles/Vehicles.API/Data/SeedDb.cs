@@ -26,7 +26,7 @@ namespace Vehicles.API.Data
             await CheckDocumentTypesAsync();
             await CheckProceduresAsync();
             await CheckRolesAsycn();
-            await CheckUserAsync("1010", "Enrique", "Barajas", "enbace74@gmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
+            await CheckUserAsync("1010", "Luis", "Salazar", "luis@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
             await CheckUserAsync("2020", "Juan", "Zuluaga", "zulu@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
             await CheckUserAsync("3030", "Ledys", "Bedoya", "ledys@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
             await CheckUserAsync("4040", "Sandra", "Lopera", "sandra@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
@@ -41,7 +41,7 @@ namespace Vehicles.API.Data
                 {
                     Address = address,
                     Document = document,
-                    DocumentType = _context.DocumentTypes.FirstOrDefault(x => x.Description == "Cédula RFC"),
+                    DocumentType = _context.DocumentTypes.FirstOrDefault(x => x.Description == "Cédula"),
                     Email = email,
                     FirstName = firstName,
                     LastName = lastName,
@@ -60,6 +60,7 @@ namespace Vehicles.API.Data
             await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
             await _userHelper.CheckRoleAsync(UserType.User.ToString());
         }
+
         private async Task CheckProceduresAsync()
         {
             if (!_context.Procedures.Any())
@@ -98,9 +99,9 @@ namespace Vehicles.API.Data
         {
             if (!_context.DocumentTypes.Any())
             {
-                _context.DocumentTypes.Add(new DocumentType { Description = "Cédula RFC" });
-                _context.DocumentTypes.Add(new DocumentType { Description = "Credencial INE" });
-                _context.DocumentTypes.Add(new DocumentType { Description = "Licencia de Conducir" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "Cédula" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "Tarjeta de Identidad" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "NIT" });
                 _context.DocumentTypes.Add(new DocumentType { Description = "Pasaporte" });
                 await _context.SaveChangesAsync();
             }
@@ -134,8 +135,8 @@ namespace Vehicles.API.Data
         {
             if (!_context.VehicleTypes.Any())
             {
+                _context.VehicleTypes.Add(new VehicleType { Description = "Carro" });
                 _context.VehicleTypes.Add(new VehicleType { Description = "Moto" });
-                _context.VehicleTypes.Add(new VehicleType { Description = "Vehículo" });
                 await _context.SaveChangesAsync();
             }
         }
