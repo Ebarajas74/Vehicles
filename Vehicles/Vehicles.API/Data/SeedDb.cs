@@ -30,6 +30,7 @@ namespace Vehicles.API.Data
             await CheckUserAsync("2020", "Juan", "Zuluaga", "zulu@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
             await CheckUserAsync("3030", "Ledys", "Bedoya", "ledys@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
             await CheckUserAsync("4040", "Sandra", "Lopera", "sandra@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
+            await CheckUserAsync("5050", "Enrique", "Barajas", "enbace74@gmail.com", "461 120 4923", "Cto. San Isidro", UserType.Admin);
         }
 
         private async Task CheckUserAsync(string document, string firstName, string lastName, string email, string phoneNumber, string address, UserType userType)
@@ -41,7 +42,7 @@ namespace Vehicles.API.Data
                 {
                     Address = address,
                     Document = document,
-                    DocumentType = _context.DocumentTypes.FirstOrDefault(x => x.Description == "Cédula"),
+                    DocumentType = _context.DocumentTypes.FirstOrDefault(x => x.Description == "Curp"),
                     Email = email,
                     FirstName = firstName,
                     LastName = lastName,
@@ -52,6 +53,9 @@ namespace Vehicles.API.Data
 
                 await _userHelper.AddUserAsync(user, "123456");
                 await _userHelper.AddUserToRoleAsync(user, userType.ToString());
+
+                string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _userHelper.ConfirmEmailAsync(user, token);
             }
         }
 
@@ -99,9 +103,9 @@ namespace Vehicles.API.Data
         {
             if (!_context.DocumentTypes.Any())
             {
-                _context.DocumentTypes.Add(new DocumentType { Description = "Cédula" });
-                _context.DocumentTypes.Add(new DocumentType { Description = "Tarjeta de Identidad" });
-                _context.DocumentTypes.Add(new DocumentType { Description = "NIT" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "Curp" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "Ine" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "Licencia" });
                 _context.DocumentTypes.Add(new DocumentType { Description = "Pasaporte" });
                 await _context.SaveChangesAsync();
             }
